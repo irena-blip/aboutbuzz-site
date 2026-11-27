@@ -209,3 +209,6 @@ textarea.input{resize:vertical;min-height:132px}
 .compare .card h3{font-size:20px}
 .compare .card--us{border:2px solid var(--teal)}
 .player video ~ .badge-img{bottom:56px}
+/* značka: majhna, vedno vidna, ne glede na vrstni red pravil */
+.player img.badge-img{position:absolute;inset:auto auto 14px 10px;width:46%;max-width:150px;min-width:110px;height:auto;object-fit:contain;z-index:3;pointer-events:none}
+.player video ~ img.badge-img{bottom:56px}
