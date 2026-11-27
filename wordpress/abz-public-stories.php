@@ -155,3 +155,62 @@ function abz_public_stories( WP_REST_Request $req ) {
 	set_transient( $key, $data, 10 * MINUTE_IN_SECONDS );
 	return rest_ensure_response( $data );
 }
+
+/* =====================================================================
+ * KONTAKTNI OBRAZEC in "CHECK YOUR BRAND" → Gravity Forms (obrazec 3)
+ * POST https://aboutbuzz.com/wp-json/aboutbuzz-public/v1/contact
+ * Telo (JSON): name, company, email, message, website (past za robote)
+ * Vnos se shrani v Forms → Entries in sproži običajna e-mail obvestila.
+ * Gravity Forms REST API za to NI potreben.
+ * ===================================================================== */
+
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'aboutbuzz-public/v1', '/contact', array(
+		'methods'             => 'POST',
+		'permission_callback' => '__return_true',
+		'callback'            => 'abz_public_contact',
+	) );
+} );
+
+function abz_public_contact( WP_REST_Request $req ) {
+	$form_id = 3;
+	$fields  = array( 'name' => 'input_4', 'company' => 'input_8', 'email' => 'input_1', 'message' => 'input_6' );
+
+	// Past za robote: človek tega polja ne vidi.
+	if ( trim( (string) $req->get_param( 'website' ) ) !== '' ) {
+		return new WP_REST_Response( array( 'is_valid' => true ), 200 );
+	}
+
+	// Največ 5 sporočil v 10 minutah z istega naslova IP.
+	$ip_key = 'abz_contact_' . md5( isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '' );
+	$count  = (int) get_transient( $ip_key );
+	if ( $count >= 5 ) {
+		return new WP_REST_Response( array( 'is_valid' => false, 'code' => 'rate_limited' ), 429 );
+	}
+
+	$name    = sanitize_text_field( (string) $req->get_param( 'name' ) );
+	$company = sanitize_text_field( (string) $req->get_param( 'company' ) );
+	$email   = sanitize_email( (string) $req->get_param( 'email' ) );
+	$message = sanitize_textarea_field( (string) $req->get_param( 'message' ) );
+
+	if ( $name === '' || ! is_email( $email ) || $message === '' || mb_strlen( $message ) > 5000 ) {
+		return new WP_REST_Response( array( 'is_valid' => false, 'code' => 'invalid_input' ), 400 );
+	}
+	if ( ! class_exists( 'GFAPI' ) ) {
+		return new WP_REST_Response( array( 'is_valid' => false, 'code' => 'gravity_forms_missing' ), 500 );
+	}
+
+	$result = GFAPI::submit_form( $form_id, array(
+		$fields['name']    => $name,
+		$fields['company'] => $company,
+		$fields['email']   => $email,
+		$fields['message'] => $message,
+	) );
+
+	if ( is_wp_error( $result ) || empty( $result['is_valid'] ) ) {
+		return new WP_REST_Response( array( 'is_valid' => false, 'code' => 'not_accepted' ), 400 );
+	}
+
+	set_transient( $ip_key, $count + 1, 10 * MINUTE_IN_SECONDS );
+	return new WP_REST_Response( array( 'is_valid' => true ), 200 );
+}

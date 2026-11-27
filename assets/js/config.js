@@ -26,12 +26,9 @@ window.ABOUTBUZZ = {
     becomeTester:   'https://upload.aboutbuzz.com'
   },
 
-  // Kontaktni obrazec → Gravity Forms (obrazec ID 3 na aboutbuzz.com/get-in-touch/).
-  // Pošiljanje je javno (brez ključev API); vnosi se shranijo v WordPress → Forms → Entries.
-  // Pogoj: v WordPressu Forms → Settings → REST API → "Enable access to the API".
-  contactEndpoint: 'https://aboutbuzz.com/wp-json/gf/v2/forms/3/submissions',
-  // Katero polje v Gravity Forms ustreza kateremu polju na strani
-  contactFields: { name: 'input_4', company: 'input_8', email: 'input_1', message: 'input_6' },
+  // Kontaktni obrazec in "Check your brand" → WordPress (WPCode odrezek) → Gravity Forms obrazec 3.
+  // Vnosi: WordPress → Forms → Entries. Gravity Forms REST API ni potreben.
+  contactEndpoint: 'https://aboutbuzz.com/wp-json/aboutbuzz-public/v1/contact',
   contactEmail: 'info@aboutbuzz.com',
 
   // Video ocene: GET JSON seznam ocen iz WordPressa (REST API).

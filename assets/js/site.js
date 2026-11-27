@@ -41,8 +41,8 @@
       window.location.href = 'mailto:' + cfg.contactEmail + '?subject=' + encodeURIComponent(data.subject || 'aboutbuzz inquiry') + '&body=' + encodeURIComponent(body);
       done(true); return;
     }
-    var payload = {};
-    Object.keys(cfg.contactFields || {}).forEach(function (k) { payload[cfg.contactFields[k]] = data[k] || ''; });
+    var payload = { name: data.name || '', company: data.company || '', email: data.email || '', message: data.message || '' };
+    if (cfg.contactFields) { payload = {}; Object.keys(cfg.contactFields).forEach(function (k) { payload[cfg.contactFields[k]] = data[k] || ''; }); }
     fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (res) { if (!res.ok || res.j.is_valid === false) throw new Error('invalid'); done(false); })
