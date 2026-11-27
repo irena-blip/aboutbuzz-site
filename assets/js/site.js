@@ -151,7 +151,7 @@
         all = list.map(function (r) {
           if (bad(r.category)) r.category = '';
           if (bad(r.brand)) r.brand = '';
-          r.lang = langNames[r.lang] || r.lang || '';
+          r.lang = (cfg.brandLanguage && cfg.brandLanguage[r.brand]) || langNames[r.lang] || r.lang || '';
           return r;
         });
         render();

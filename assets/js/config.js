@@ -37,5 +37,12 @@ window.ABOUTBUZZ = {
   // Video ocene: GET JSON seznam ocen iz WordPressa (REST API).
   // Prazno = uporabijo se vzorčne ocene iz assets/data/reviews.json.
   // Vir: WPCode odrezek wordpress/abz-public-stories.php
+  // Jezik po znamki: če je v WordPressu jezik pri oceni napačen, ima to prednost.
+  // Dodaj vrstico: 'Ime znamke': 'Jezik'
+  brandLanguage: {
+    'Marivelle': 'Slovenian',
+    'Podim': 'English'
+  },
+
   reviewsEndpoint: 'https://aboutbuzz.com/wp-json/aboutbuzz-public/v1/stories?per_page=100'
 };
