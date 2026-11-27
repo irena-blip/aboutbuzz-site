@@ -45,8 +45,18 @@
       }
       var btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
-      fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(function (r) { if (!r.ok) throw new Error(r.status); form.reset(); show('Thank you. We received your message and will reply within 24 hours.', true); })
+      var payload = data;
+      if (cfg.contactFields) {
+        payload = {};
+        Object.keys(cfg.contactFields).forEach(function (k) { payload[cfg.contactFields[k]] = data[k]; });
+      }
+      fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok || res.j.is_valid === false) throw new Error('invalid');
+          form.reset();
+          show('Thank you. We received your message and will reply within 24 hours.', true);
+        })
         .catch(function () { show('The message could not be sent. Please try again, or write to ' + cfg.contactEmail + '.', false); })
         .then(function () { btn.disabled = false; });
     });
