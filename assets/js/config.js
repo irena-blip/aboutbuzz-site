@@ -12,17 +12,17 @@
 window.ABOUTBUZZ = {
   // Kje teče WordPress (WooCommerce, računi, nadzorna plošča strank).
   // Ko se frontend preseli na aboutbuzz.com, WordPress prestavimo npr. na app.aboutbuzz.com.
-  wordpress: 'https://app.aboutbuzz.com',
+  wordpress: 'https://aboutbuzz.com',
 
   links: {
-    // Registracija / brezplačni paket (4 videi)
-    freeSignup:     'https://upload.aboutbuzz.com',
-    // Nakup paketov – WooCommerce: /checkout/?add-to-cart=<ID izdelka>
-    planDisplay:    'https://upload.aboutbuzz.com',   // Display & Trust 29 €/mesec
-    planGrowth:     'https://upload.aboutbuzz.com',   // Growth 149 €/mesec
-    // Prijava v nadzorno ploščo stranke
-    login:          'https://upload.aboutbuzz.com',
-    // Prijava testerjev
+    // Brezplačni paket (WooCommerce izdelek "Free plan", ID 4438) – doda v košarico in odpre checkout
+    freeSignup:     'https://aboutbuzz.com/?add-to-cart=4438',
+    // Naročnine (Subscriptions for WooCommerce)
+    planDisplay:    'https://aboutbuzz.com/?add-to-cart=7349',   // Display & Trust 29 €/mesec
+    planGrowth:     'https://aboutbuzz.com/?add-to-cart=7339',   // Growth 149 €/mesec
+    // Prijava v nadzorno ploščo stranke (WordPress / WooCommerce)
+    login:          'https://aboutbuzz.com/my-account/',
+    // Prijava testerjev (aplikacija Lovable)
     becomeTester:   'https://upload.aboutbuzz.com'
   },
 
