@@ -92,7 +92,7 @@
     // Uradni EU registrirani znački (obvezni po zakonu): Verified Tester / Verified Purchase
     var badgeImg = function (label) {
       var tester = /tester/i.test(label || '');
-      return '<img class="badge-img" src="assets/img/badge-verified-' + (tester ? 'tester' : 'purchase') + '.png" alt="Authentic Verified ' + (tester ? 'Tester' : 'Purchase') + '" width="260" height="77">';
+      return '<img class="badge-img" src="/assets/img/badge-verified-' + (tester ? 'tester' : 'purchase') + '.png" alt="Authentic Verified ' + (tester ? 'Tester' : 'Purchase') + '" width="260" height="77">';
     };
     var card = function (r, i) {
       var media = r.video
@@ -151,11 +151,11 @@
       var next = grid.children[first]; if (next) { var b = next.querySelector('button, video'); if (b) b.focus({ preventScroll: true }); }
     });
 
-    var src = cfg.reviewsEndpoint || 'assets/data/reviews.json';
+    var src = cfg.reviewsEndpoint || '/assets/data/reviews.json';
     // Enotna imena jezikov (WordPress ima mešano slovenska/angleška imena)
     var langNames = { 'Slovenščina': 'Slovenian', 'Angleščina': 'English', 'Nemščina': 'German', 'Ruščina': 'Russian', 'Latvian': 'Latvian', 'Turkish': 'Turkish' };
     var toList = function (data) { return Array.isArray(data) ? data : ((data && data.reviews) || []); };
-    var sample = function () { return fetch('assets/data/reviews.json').then(function (r) { return r.json(); }).then(toList).catch(function () { return []; }); };
+    var sample = function () { return fetch('/assets/data/reviews.json').then(function (r) { return r.json(); }).then(toList).catch(function () { return []; }); };
     var getJSON = function (url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); };
     var withPage = function (url, n) { return url + (url.indexOf('?') === -1 ? '?' : '&') + 'page=' + n; };
     var loadAll = function () {

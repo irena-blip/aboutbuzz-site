@@ -1,0 +1,8 @@
+# Stari naslovi testne strani → novi (enaki kot na WordPressu)
+/index.html          /                 301
+/pricing.html        /pricing/         301
+/how-it-works.html   /howitworks/      301
+/how-it-works        /howitworks/      301
+/how-it-works/       /howitworks/      301
+/about.html          /about/           301
+/video-reviews.html  /video-reviews/   301

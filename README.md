@@ -7,11 +7,15 @@ Prodaja, plačila, uporabniški računi in podatki ostanejo v WordPressu.
 
 | Datoteka | Kaj je |
 |---|---|
-| `index.html` | Domača stran |
-| `pricing.html` | Cenik (gumbi vodijo na WordPress/WooCommerce checkout) |
-| `how-it-works.html` | Kako deluje |
-| `about.html` | O nas + kontaktni obrazec (pošlje v WordPress) |
-| `video-reviews.html` | Video ocene (bere iz WordPress REST API ali `assets/data/reviews.json`) |
+| `index.html` | Domača stran (`/`) |
+| `pricing/index.html` | Cenik (`/pricing/`), gumbi vodijo v WooCommerce checkout |
+| `howitworks/index.html` | Kako deluje (`/howitworks/`) |
+| `about/index.html` | O nas + kontaktni obrazec → Gravity Forms (`/about/`) |
+| `video-reviews/index.html` | Video ocene iz WordPressa (`/video-reviews/`) |
+| `assets/js/consent.js` | Obvestilo o piškotkih, GA4 in Meta Pixel po soglasju |
+| `wordpress/abz-public-stories.php` | WPCode odrezek: javni seznam odobrenih video ocen |
+| `cloudflare/worker.js` | Usmerjanje aboutbuzz.com (nova stran / WordPress) |
+| `PREKLOP.md` | Kontrolni seznam za preklop domene |
 | `assets/css/style.css` | Barve, pisave, vsi slogi |
 | `assets/js/config.js` | **Edino mesto s povezavami na WordPress** |
 | `assets/js/site.js` | Meni, obrazec, filtri video ocen |

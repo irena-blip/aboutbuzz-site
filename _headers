@@ -1,7 +1,19 @@
-# Cloudflare Pages: HTTP glave za vse datoteke.
-# NOINDEX: dokler je stran na new.aboutbuzz.com (testiranje), je iskalniki ne indeksirajo.
-# Ob preklopu na glavno domeno aboutbuzz.com spodnjo vrstico X-Robots-Tag izbriši.
-/*
+# Cloudflare Pages: HTTP glave.
+# NOINDEX velja samo za testna naslova (new.aboutbuzz.com in *.pages.dev).
+# Na aboutbuzz.com stran streže Worker (cloudflare/worker.js), ki to glavo odstrani,
+# zato ob preklopu tukaj NI treba ničesar spreminjati.
+https://new.aboutbuzz.com/*
   X-Robots-Tag: noindex, nofollow
+
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+/assets/*
+  Cache-Control: public, max-age=86400
