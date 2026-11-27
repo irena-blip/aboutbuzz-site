@@ -97,8 +97,9 @@
         ? '<video src="' + esc(r.video) + '"' + (r.poster ? ' poster="' + esc(r.poster) + '"' : '') + ' controls preload="none" playsinline></video>'
         : '<span class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#01798C"><path d="M8 5.5v13l11-6.5z"/></svg></span>';
       var stars = ''; for (var s = 0; s < (r.rating || 5); s++) stars += star;
+      var langChip = r.lang ? '<span class="lang-chip">' + esc(r.lang) + '</span>' : '';
       return '<article class="review">' +
-        '<div class="player" style="background:' + tones[i % 3] + '">' + media + badgeImg(r.badge) + '</div>' +
+        '<div class="player" style="background:' + tones[i % 3] + '">' + media + langChip + badgeImg(r.badge) + '</div>' +
         '<div class="review-body">' +
           '<div class="review-meta"><span class="stars" role="img" aria-label="' + (r.rating || 5) + ' out of 5 stars">' + stars + '</span>' + (r.useful ? '<span>' + esc(r.useful) + ' useful</span>' : '') + '</div>' +
           (r.transcript ? '<div><div class="review-label">Transcript</div><p style="font-size:15px;color:var(--muted)">' + esc(r.transcript) + '</p></div>' : '') +
@@ -137,6 +138,8 @@
     document.getElementById('q-search').addEventListener('input', function (e) { state.q = e.target.value; render(); });
 
     var src = cfg.reviewsEndpoint || 'assets/data/reviews.json';
+    // Enotna imena jezikov (WordPress ima mešano slovenska/angleška imena)
+    var langNames = { 'Slovenščina': 'Slovenian', 'Angleščina': 'English', 'Nemščina': 'German', 'Ruščina': 'Russian', 'Latvian': 'Latvian', 'Turkish': 'Turkish' };
     var toList = function (data) { return Array.isArray(data) ? data : ((data && data.reviews) || []); };
     var sample = function () { return fetch('assets/data/reviews.json').then(function (r) { return r.json(); }).then(toList).catch(function () { return []; }); };
     fetch(src)
@@ -148,6 +151,7 @@
         all = list.map(function (r) {
           if (bad(r.category)) r.category = '';
           if (bad(r.brand)) r.brand = '';
+          r.lang = langNames[r.lang] || r.lang || '';
           return r;
         });
         render();
