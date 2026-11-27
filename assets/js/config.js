@@ -36,5 +36,6 @@ window.ABOUTBUZZ = {
 
   // Video ocene: GET JSON seznam ocen iz WordPressa (REST API).
   // Prazno = uporabijo se vzorčne ocene iz assets/data/reviews.json.
-  reviewsEndpoint: ''
+  // Vir: WPCode odrezek wordpress/abz-public-stories.php
+  reviewsEndpoint: 'https://aboutbuzz.com/wp-json/aboutbuzz-public/v1/stories?per_page=100'
 };

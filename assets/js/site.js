@@ -117,8 +117,12 @@
     document.getElementById('q-search').addEventListener('input', function (e) { state.q = e.target.value; render(); });
 
     var src = cfg.reviewsEndpoint || 'assets/data/reviews.json';
-    fetch(src).then(function (r) { return r.json(); })
-      .catch(function () { return cfg.reviewsEndpoint ? fetch('assets/data/reviews.json').then(function (r) { return r.json(); }) : []; })
-      .then(function (data) { all = Array.isArray(data) ? data : (data.reviews || []); render(); });
+    var toList = function (data) { return Array.isArray(data) ? data : ((data && data.reviews) || []); };
+    var sample = function () { return fetch('assets/data/reviews.json').then(function (r) { return r.json(); }).then(toList).catch(function () { return []; }); };
+    fetch(src)
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (data) { var list = toList(data); if (!list.length) throw new Error('empty'); return list; })
+      .catch(sample)
+      .then(function (list) { all = list; render(); });
   }
 })();
