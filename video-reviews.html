@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Video reviews — aboutbuzz</title>
+<meta name="description" content="Browse verified video reviews collected by aboutbuzz, filtered by category and language.">
+<meta property="og:title" content="Video reviews — aboutbuzz">
+<meta property="og:description" content="Browse verified video reviews collected by aboutbuzz, filtered by category and language.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="logo" href="index.html">aboutbuzz</a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<nav class="nav" id="site-nav" aria-label="Main">
+<a href="pricing.html">Pricing</a>
+<a href="how-it-works.html">How it works</a>
+<a href="about.html">About us</a>
+<a href="video-reviews.html" aria-current="page">Video reviews</a>
+<a class="nav-login" href="https://upload.aboutbuzz.com" data-link="login">Log in</a>
+<a class="nav-cta" href="https://upload.aboutbuzz.com" data-link="becomeTester">Become our tester</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="hero" style="padding-bottom:32px">
+<div class="wrap"><div class="hero-copy">
+<div class="eyebrow">Video reviews</div>
+<h1>Explore authentic reviews we've collected</h1>
+<p class="lead">Real, unscripted videos from real people. Filter by category or language.</p>
+</div></div>
+</section>
+
+<section class="band" style="padding-top:0">
+<div class="wrap">
+<div class="filters">
+<div class="field" style="max-width:460px"><label for="q-search" class="filter-label">Search content</label><input class="input" id="q-search" type="search" placeholder="Search by brand or text"></div>
+<div class="stack" style="gap:10px"><div class="filter-label" id="cat-label">Category</div><div class="chips" id="cat-chips" role="group" aria-labelledby="cat-label"></div></div>
+<div class="stack" style="gap:10px"><div class="filter-label" id="lang-label">Language</div><div class="chips" id="lang-chips" role="group" aria-labelledby="lang-label"></div></div>
+</div>
+<p class="note" id="reviews-count" aria-live="polite" style="margin-bottom:20px">Loading reviews…</p>
+<div class="empty" id="reviews-empty" hidden><h3>No reviews match these filters</h3><p style="margin-top:8px">Try another category or language, or clear the search.</p></div>
+<div class="grid grid--3" id="reviews-grid"></div>
+</div>
+</section>
+
+<section class="band band--soft cta-band">
+<div class="wrap">
+<div class="stack"><h2>AI can scale your marketing. Real people make it believable.</h2><p class="lead">Pair your campaigns with verified video reviews that shoppers can trust.</p></div>
+<a class="btn btn--primary" href="https://upload.aboutbuzz.com" data-link="freeSignup">Get 4 free video reviews</a>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-cols">
+<div class="foot-col">
+<div class="logo">aboutbuzz</div>
+<div>Cluekit d.o.o.<br>Podbreznik 13<br>8000 Novo mesto, Slovenia</div>
+<div>info@aboutbuzz.com</div>
+</div>
+<div class="foot-col">
+<div class="foot-label">Legal</div>
+<a href="https://aboutbuzz.com/wp-content/uploads/2026/04/Creator-Terms-of-Service.pdf">Creator Terms of Service</a>
+<a href="https://aboutbuzz.com/wp-content/uploads/2026/04/Aboutbuzz-Trust-Verification-Policy.pdf">Aboutbuzz Trust &amp; Verification Policy</a>
+<a href="https://aboutbuzz.com/wp-content/uploads/2026/04/Data-Processing-Notice.pdf">Data Processing Notice</a>
+</div>
+<div class="foot-col">
+<div class="foot-label">Follow</div>
+<a href="https://www.facebook.com/aboutbuzz">Facebook</a>
+<a href="https://www.instagram.com/aboutbuzz_reviews">Instagram</a>
+<a href="https://www.tiktok.com/@aboutbuzz_reviews">TikTok</a>
+</div>
+</div>
+<div class="foot-legal">
+<div>Aboutbuzz is listed on the Register of Innovative Start-up Companies.</div>
+<div>The development of the aboutbuzz.com platform is co-financed by the Republic of Slovenia and the European Union under the European Regional Development Fund.</div>
+<!-- Logotipi financerjev: shrani jih v assets/img/ in odkomentiraj
+<div class="funders"><img src="assets/img/mgrt.png" alt="Ministry of the Economy, Tourism and Sport"><img src="assets/img/sps.png" alt="Slovene Enterprise Fund"><img src="assets/img/eu-erdf.png" alt="European Regional Development Fund"></div> -->
+<div>2026 © Cluekit d.o.o. All Rights Reserved</div>
+</div>
+</div>
+</footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
