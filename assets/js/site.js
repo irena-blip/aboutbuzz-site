@@ -96,7 +96,12 @@
       var media = r.video
         ? '<video src="' + esc(r.video) + '"' + (r.poster ? ' poster="' + esc(r.poster) + '"' : '') + ' controls preload="none" playsinline></video>'
         : '<span class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#01798C"><path d="M8 5.5v13l11-6.5z"/></svg></span>';
-      var stars = ''; for (var s = 0; s < (r.rating || 5); s++) stars += star;
+      var rating = Number(r.rating) || 5, stars = '';
+      for (var s = 1; s <= 5; s++) {
+        if (rating >= s) stars += star;
+        else if (rating >= s - 0.5) stars += '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="h' + i + '"><stop offset="50%" stop-color="#E39B0B"/><stop offset="50%" stop-color="#C9D3D5"/></linearGradient></defs><path fill="url(#h' + i + ')" d="M12 2.8l2.8 5.9 6.4.9-4.7 4.5 1.2 6.4L12 17.4 6.3 20.5l1.2-6.4L2.8 9.6l6.4-.9z"/></svg>';
+        else stars += star.replace('#E39B0B', '#C9D3D5');
+      }
       var langChip = r.lang ? '<span class="lang-chip">' + esc(r.lang) + '</span>' : '';
       return '<article class="review">' +
         '<div class="player" style="background:' + tones[i % 3] + '">' + media + langChip + badgeImg(r.badge) + '</div>' +

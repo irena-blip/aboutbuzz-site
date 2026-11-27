@@ -10,6 +10,7 @@
  * - samo BRANJE, nič ne zapisuje
  * - samo objavljene "stories" z approval = 1 (enako kot stran /video-reviews/)
  * - NE vrača imen, e-mailov ali drugih osebnih podatkov testerjev
+ * - v2: polja ACF (watermark_video, product_source, category, jezik, vote_count, rating)
  * - rezultat se hrani v predpomnilniku 10 minut
  */
 
@@ -55,6 +56,21 @@ function abz_pub_term( $id, $needles ) {
 	return '';
 }
 
+/** ACF Select/Checkbox → berljiva oznaka (label), ne interni ključ. */
+function abz_pub_acf_label( $id, $name ) {
+	if ( ! function_exists( 'get_field_object' ) ) { return ''; }
+	$o = get_field_object( $name, $id, false );
+	if ( ! $o || ! isset( $o['value'] ) || $o['value'] === '' || $o['value'] === null ) { return ''; }
+	$choices = isset( $o['choices'] ) && is_array( $o['choices'] ) ? $o['choices'] : array();
+	$vals = is_array( $o['value'] ) ? $o['value'] : array( $o['value'] );
+	$labels = array();
+	foreach ( $vals as $v ) {
+		if ( is_array( $v ) ) { $v = isset( $v['label'] ) ? $v['label'] : reset( $v ); }
+		$labels[] = isset( $choices[ $v ] ) ? $choices[ $v ] : $v;
+	}
+	return implode( ', ', array_filter( array_map( 'strval', $labels ) ) );
+}
+
 function abz_pub_text( $s, $max = 600 ) {
 	$s = trim( html_entity_decode( wp_strip_all_tags( (string) $s ), ENT_QUOTES, 'UTF-8' ) );
 	return mb_strlen( $s ) > $max ? mb_substr( $s, 0, $max - 1 ) . '…' : $s;
@@ -63,7 +79,7 @@ function abz_pub_text( $s, $max = 600 ) {
 function abz_public_stories( WP_REST_Request $req ) {
 	$per  = min( 100, max( 1, (int) $req['per_page'] ) );
 	$page = max( 1, (int) $req['page'] );
-	$key  = 'abz_pub_stories_v1_' . $per . '_' . $page;
+	$key  = 'abz_pub_stories_v2_' . $per . '_' . $page;
 
 	$cached = get_transient( $key );
 	if ( false !== $cached ) { return rest_ensure_response( $cached ); }
@@ -79,50 +95,54 @@ function abz_public_stories( WP_REST_Request $req ) {
 		'ignore_sticky_posts' => true,
 	) );
 
-	$lang_map = array( 'Slovenščina' => 'Slovenian', 'Angleščina' => 'English', 'Ruščina' => 'Russian', 'Nemščina' => 'German' );
+	$lang_map = array( 'Slovenščina' => 'Slovenian', 'slovenscina' => 'Slovenian', 'slovenian' => 'Slovenian', 'Angleščina' => 'English', 'anglescina' => 'English', 'english' => 'English', 'Ruščina' => 'Russian', 'ruscina' => 'Russian', 'Nemščina' => 'German', 'nemscina' => 'German', 'latvian' => 'Latvian', 'turkish' => 'Turkish' );
 	$out = array();
 
 	foreach ( $q->posts as $p ) {
 		$id = $p->ID;
 
-		// Video: meta polje, sicer priložen video (prednost ima "watermarked").
-		$video = abz_pub_url( abz_pub_meta( $id, array( 'watermarked_video', 'video_url', 'video', 'video_file' ) ) );
-		if ( ! $video ) {
-			foreach ( get_attached_media( 'video', $id ) as $m ) {
-				$u = wp_get_attachment_url( $m->ID );
-				if ( $u && ( ! $video || stripos( $u, 'watermarked' ) !== false ) ) { $video = $u; }
-			}
-		}
+		// Video: najprej različica z VODNIM ŽIGOM (ACF watermark_video), šele nato izvirnik (ACF video).
+		$video = abz_pub_url( abz_pub_meta( $id, array( 'watermark_video', 'watermarked_video' ) ) );
+		$watermarked = (bool) $video;
+		if ( ! $video ) { $video = abz_pub_url( abz_pub_meta( $id, array( 'video', 'video_url', 'video_file' ) ) ); }
 
 		$poster = get_the_post_thumbnail_url( $id, 'large' );
 		if ( ! $poster ) { $poster = abz_pub_url( abz_pub_meta( $id, array( 'screenshot', 'thumbnail', 'poster' ) ) ); }
 
-		$vt     = abz_pub_meta( $id, array( 'verified_tester', 'is_verified_tester' ) );
-		$badge  = ( $vt && $vt !== '0' && $vt !== 'false' ) ? 'Authentic Verified Tester' : 'Authentic Verified Purchase';
+		// Značka (EU registrirani): iz ACF product_source.
+		$source = abz_pub_acf_label( $id, 'product_source' );
+		if ( ! $source ) { $source = (string) abz_pub_meta( $id, array( 'product_source' ) ); }
+		$is_tester = (bool) preg_match( '/tester|test|brand|provided|seed|gift|free|zastonj|brezpla|podar/i', $source );
+		$badge = $is_tester ? 'Authentic Verified Tester' : 'Authentic Verified Purchase';
 
-		$lang = abz_pub_term( $id, array( 'jezik', 'lang' ) );
-		if ( ! $lang ) { $lang = (string) abz_pub_meta( $id, array( 'jezik', 'language' ) ); }
+		$lang = abz_pub_acf_label( $id, 'jezik' );
+		if ( ! $lang ) { $lang = abz_pub_term( $id, array( 'jezik', 'lang' ) ); }
 		if ( isset( $lang_map[ $lang ] ) ) { $lang = $lang_map[ $lang ]; }
 
 		$brand = abz_pub_term( $id, array( 'brand' ) );
 		if ( ! $brand ) { $brand = (string) abz_pub_meta( $id, array( 'brand' ) ); }
+		if ( $brand === '0' ) { $brand = ''; }
 
-		$category = abz_pub_term( $id, array( 'categor', 'kategorij' ) );
-		if ( ! $category ) { $category = (string) abz_pub_meta( $id, array( 'category' ) ); }
+		$category = abz_pub_acf_label( $id, 'category' );
+		if ( ! $category ) { $category = abz_pub_term( $id, array( 'categor', 'kategorij' ) ); }
 
-		$text = abz_pub_meta( $id, array( 'short_description', 'description' ) );
-		if ( ! $text ) { $text = $p->post_excerpt ? $p->post_excerpt : $p->post_content; }
+		$text = abz_pub_meta( $id, array( 'short_description', 'story' ) );
+		$transcript = abz_pub_meta( $id, array( 'transcript' ) );
+		if ( ! $transcript && $p->post_content && abz_pub_text( $p->post_content ) !== abz_pub_text( $text ) ) { $transcript = $p->post_content; }
+		if ( ! $text ) { $text = $p->post_excerpt; }
 
-		$rating = (int) abz_pub_meta( $id, array( 'rating', 'star_rating', 'stars' ) );
+		$rating = (float) abz_pub_meta( $id, array( 'rating' ) );
 
 		$out[] = array(
 			'id'         => $id,
 			'badge'      => $badge,
 			'category'   => abz_pub_text( $category, 80 ),
 			'lang'       => abz_pub_text( $lang, 40 ),
-			'rating'     => ( $rating >= 1 && $rating <= 5 ) ? $rating : 5,
-			'useful'     => (int) abz_pub_meta( $id, array( 'votes', 'vote_count', 'useful_votes', 'useful' ) ),
-			'transcript' => abz_pub_text( abz_pub_meta( $id, array( 'transcript' ) ) ),
+			'rating'     => ( $rating >= 1 && $rating <= 5 ) ? round( $rating * 2 ) / 2 : 5,
+			'useful'     => (int) abz_pub_meta( $id, array( 'vote_count' ) ),
+			'transcript' => abz_pub_text( $transcript, 1200 ),
+			'source'     => abz_pub_text( $source, 60 ),
+			'watermarked'=> $watermarked,
 			'brand'      => abz_pub_text( $brand, 120 ),
 			'text'       => abz_pub_text( $text ),
 			'video'      => $video,
