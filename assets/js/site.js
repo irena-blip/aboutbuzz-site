@@ -123,6 +123,14 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) { var list = toList(data); if (!list.length) throw new Error('empty'); return list; })
       .catch(sample)
-      .then(function (list) { all = list; render(); });
+      .then(function (list) {
+        var bad = function (v) { return !v || v === '0' || v === 'Array'; };
+        all = list.map(function (r) {
+          if (bad(r.category)) r.category = '';
+          if (bad(r.brand)) r.brand = '';
+          return r;
+        });
+        render();
+      });
   }
 })();
