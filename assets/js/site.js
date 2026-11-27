@@ -70,15 +70,19 @@
     var tones = ['#0E2A30', '#01798C', '#015566'];
     var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     var star = '<svg width="16" height="16" viewBox="0 0 24 24" fill="#E39B0B" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.9-4.7 4.5 1.2 6.4L12 17.4 6.3 20.5l1.2-6.4L2.8 9.6l6.4-.9z"/></svg>';
-    var shield = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.2-2.9 7.9-7 9.5-4.1-1.6-7-5.3-7-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></svg>';
 
+    // Uradni EU registrirani znački (obvezni po zakonu): Verified Tester / Verified Purchase
+    var badgeImg = function (label) {
+      var tester = /tester/i.test(label || '');
+      return '<img class="badge-img" src="assets/img/badge-verified-' + (tester ? 'tester' : 'purchase') + '.png" alt="Authentic Verified ' + (tester ? 'Tester' : 'Purchase') + '" width="260" height="77">';
+    };
     var card = function (r, i) {
       var media = r.video
         ? '<video src="' + esc(r.video) + '"' + (r.poster ? ' poster="' + esc(r.poster) + '"' : '') + ' controls preload="none" playsinline></video>'
         : '<span class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#01798C"><path d="M8 5.5v13l11-6.5z"/></svg></span>';
       var stars = ''; for (var s = 0; s < (r.rating || 5); s++) stars += star;
       return '<article class="review">' +
-        '<div class="player" style="background:' + tones[i % 3] + '"><span class="badge">' + shield + esc(r.badge) + '</span>' + media + '</div>' +
+        '<div class="player" style="background:' + tones[i % 3] + '">' + media + badgeImg(r.badge) + '</div>' +
         '<div class="review-body">' +
           '<div class="review-meta"><span class="stars" role="img" aria-label="' + (r.rating || 5) + ' out of 5 stars">' + stars + '</span>' + (r.useful ? '<span>' + esc(r.useful) + ' useful</span>' : '') + '</div>' +
           (r.transcript ? '<div><div class="review-label">Transcript</div><p style="font-size:15px;color:var(--muted)">' + esc(r.transcript) + '</p></div>' : '') +

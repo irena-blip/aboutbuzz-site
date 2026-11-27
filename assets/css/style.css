@@ -67,7 +67,8 @@ p{margin:0}
 .site-header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--white)}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px 32px;padding-block:12px}
-.logo{font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:-0.02em;color:var(--teal);text-decoration:none}
+.logo{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.logo img{height:32px;width:auto}
 .nav{display:flex;align-items:center;gap:4px 28px;font-size:16px;font-weight:500}
 .nav a{color:var(--text);text-decoration:none;padding-block:10px}
 .nav a:hover{color:var(--teal)}
@@ -97,10 +98,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .player{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:var(--radius);overflow:hidden;background:var(--ink);color:var(--white)}
 .player--a{width:min(46%,240px);background:linear-gradient(160deg,#015566,#0E2A30)}
 .player--b{width:min(46%,240px);margin-top:48px;background:linear-gradient(160deg,#01798C,#015566)}
-.player video,.player img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.player video,.player img:not(.badge-img){position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .badge{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:6px;background:var(--white);color:var(--ink);border-radius:999px;padding:6px 12px 6px 9px;font-size:12px;font-weight:600;line-height:1.2;z-index:2}
 .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;z-index:2;border:0;cursor:pointer}
-.player .stars{position:absolute;left:14px;bottom:14px;z-index:2}
+.player .stars{position:absolute;left:14px;top:14px;z-index:2}
+/* uradni EU registrirani znački – vedno spodaj levo na videu, kot na aboutbuzz.com */
+.player .badge-img{position:absolute;left:0;bottom:14px;width:62%;max-width:240px;height:auto;z-index:3;pointer-events:none}
+.trust-badge{width:260px;max-width:100%;height:auto}
 .stars{display:flex;gap:3px}
 
 /* številka +46 */
@@ -192,7 +196,8 @@ textarea.input{resize:vertical;min-height:132px}
 .site-footer .wrap{padding-block:56px 40px;display:flex;flex-direction:column;gap:40px}
 .foot-cols{display:flex;flex-wrap:wrap;gap:40px 64px;justify-content:space-between}
 .foot-col{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:4px}
-.foot-col .logo{color:var(--white);font-size:26px;margin-bottom:8px}
+.foot-col .logo{margin-bottom:8px;min-height:0}
+.foot-col .logo img{height:28px}
 .foot-label{font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--foot-label);margin-bottom:8px}
 .foot-col a{color:var(--foot-link);display:inline-flex;align-items:center;min-height:40px}
 .foot-legal{border-top:1px solid var(--foot-line);padding-top:28px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--foot-small)}
@@ -203,3 +208,4 @@ textarea.input{resize:vertical;min-height:132px}
 .split > *{flex:1 1 400px;min-width:0}
 .compare .card h3{font-size:20px}
 .compare .card--us{border:2px solid var(--teal)}
+.player video ~ .badge-img{bottom:56px}
