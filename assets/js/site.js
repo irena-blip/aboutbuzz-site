@@ -81,7 +81,9 @@
   // 4) Stran z video ocenami
   var grid = document.getElementById('reviews-grid');
   if (grid) {
-    var state = { cat: 'All', lang: 'All', q: '' };
+    var PAGE = 24;
+    var moreBtn = document.getElementById('load-more');
+    var state = { cat: 'All', lang: 'All', q: '', limit: PAGE };
     var all = [];
     var tones = ['#0E2A30', '#01798C', '#015566'];
     var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
@@ -120,7 +122,7 @@
       }).join('');
       row.onclick = function (e) {
         var b = e.target.closest('button'); if (!b) return;
-        state[key] = b.getAttribute('data-v'); render();
+        state[key] = b.getAttribute('data-v'); state.limit = PAGE; render();
       };
     };
 
@@ -135,20 +137,40 @@
           (state.lang === 'All' || r.lang === state.lang) &&
           (!q || [r.text, r.brand, r.transcript].join(' ').toLowerCase().indexOf(q) !== -1);
       });
-      grid.innerHTML = shown.map(card).join('');
+      var visible = shown.slice(0, state.limit);
+      grid.innerHTML = visible.map(card).join('');
       document.getElementById('reviews-empty').hidden = shown.length > 0;
-      document.getElementById('reviews-count').textContent = 'Showing ' + shown.length + ' of ' + all.length + ' reviews';
+      document.getElementById('reviews-count').textContent = 'Showing ' + visible.length + ' of ' + shown.length + ' reviews';
+      if (moreBtn) moreBtn.hidden = shown.length <= visible.length;
     };
 
-    document.getElementById('q-search').addEventListener('input', function (e) { state.q = e.target.value; render(); });
+    document.getElementById('q-search').addEventListener('input', function (e) { state.q = e.target.value; state.limit = PAGE; render(); });
+    if (moreBtn) moreBtn.addEventListener('click', function () {
+      var first = state.limit;
+      state.limit += PAGE; render();
+      var next = grid.children[first]; if (next) { var b = next.querySelector('button, video'); if (b) b.focus({ preventScroll: true }); }
+    });
 
     var src = cfg.reviewsEndpoint || 'assets/data/reviews.json';
     // Enotna imena jezikov (WordPress ima mešano slovenska/angleška imena)
     var langNames = { 'Slovenščina': 'Slovenian', 'Angleščina': 'English', 'Nemščina': 'German', 'Ruščina': 'Russian', 'Latvian': 'Latvian', 'Turkish': 'Turkish' };
     var toList = function (data) { return Array.isArray(data) ? data : ((data && data.reviews) || []); };
     var sample = function () { return fetch('assets/data/reviews.json').then(function (r) { return r.json(); }).then(toList).catch(function () { return []; }); };
-    fetch(src)
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    var getJSON = function (url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); };
+    var withPage = function (url, n) { return url + (url.indexOf('?') === -1 ? '?' : '&') + 'page=' + n; };
+    var loadAll = function () {
+      if (!cfg.reviewsEndpoint) return getJSON(src);
+      // WordPress vrne največ 100 na stran: naloži prvo, nato ostale vzporedno
+      return getJSON(withPage(src, 1)).then(function (first) {
+        var per = (first.reviews || []).length || 100;
+        var pages = Math.ceil((first.total || 0) / per), rest = [];
+        for (var n = 2; n <= pages && n <= 20; n++) rest.push(getJSON(withPage(src, n)).catch(function () { return { reviews: [] }; }));
+        return Promise.all(rest).then(function (more) {
+          return { reviews: more.reduce(function (acc, d) { return acc.concat(d.reviews || []); }, first.reviews || []) };
+        });
+      });
+    };
+    loadAll()
       .then(function (data) { var list = toList(data); if (!list.length) throw new Error('empty'); return list; })
       .catch(sample)
       .then(function (list) {
