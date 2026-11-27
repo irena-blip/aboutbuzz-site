@@ -212,3 +212,8 @@ textarea.input{resize:vertical;min-height:132px}
 /* značka: majhna, vedno vidna, ne glede na vrstni red pravil */
 .player img.badge-img{position:absolute;inset:auto auto 14px 0;width:46%;max-width:150px;min-width:110px;height:auto;object-fit:contain;z-index:3;pointer-events:none}
 .player video ~ img.badge-img{bottom:56px}
+[hidden]{display:none!important}
+.player .poster{background:var(--ink)}
+.player .stars{filter:drop-shadow(0 1px 2px rgba(0,0,0,.55))}
+.player .play{box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.player .play:hover{transform:translate(-50%,-50%) scale(1.06)}

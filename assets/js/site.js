@@ -8,6 +8,22 @@
     if (url) el.setAttribute('href', url);
   });
 
+  // 1b) Video predvajalniki: video se naloži šele ob kliku na Play
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.player[data-video] .play');
+    if (!btn) return;
+    var pl = btn.closest('.player');
+    document.querySelectorAll('.player video').forEach(function (v) { v.pause(); });
+    var v = document.createElement('video');
+    v.src = pl.getAttribute('data-video');
+    v.controls = true; v.playsInline = true; v.setAttribute('playsinline', '');
+    pl.insertBefore(v, pl.querySelector('.badge-img'));
+    ['.poster', '.stars'].forEach(function (sel) { var el = pl.querySelector(sel); if (el) el.hidden = true; });
+    btn.hidden = true;
+    v.play().catch(function () {});
+    v.focus();
+  });
+
   // 2) Mobilni meni
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.getElementById('site-nav');
