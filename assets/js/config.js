@@ -37,6 +37,15 @@ window.ABOUTBUZZ = {
   // Video ocene: GET JSON seznam ocen iz WordPressa (REST API).
   // Prazno = uporabijo se vzorčne ocene iz assets/data/reviews.json.
   // Vir: WPCode odrezek wordpress/abz-public-stories.php
+  // Analitika in oglaševanje. Naloži se ŠELE po soglasju obiskovalca (obvestilo o piškotkih).
+  // Prazno = se ne naloži.
+  analytics: {
+    ga4: 'G-KPJKEQDSNS',            // Google Analytics 4 (kategorija: Statistics)
+    metaPixel: '2103811096786124'   // Meta / Facebook Pixel (kategorija: Marketing)
+  },
+  // Kam vodi povezava "More information" v obvestilu o piškotkih
+  privacyUrl: 'https://aboutbuzz.com/wp-content/uploads/2026/04/Data-Processing-Notice.pdf',
+
   // Jezik po znamki: če je v WordPressu jezik pri oceni napačen, ima to prednost.
   // Dodaj vrstico: 'Ime znamke': 'Jezik'
   brandLanguage: {
