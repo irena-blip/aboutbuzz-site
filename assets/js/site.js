@@ -18,7 +18,7 @@
     v.src = pl.getAttribute('data-video');
     v.controls = true; v.playsInline = true; v.setAttribute('playsinline', '');
     pl.insertBefore(v, pl.querySelector('.badge-img'));
-    ['.poster', '.stars'].forEach(function (sel) { var el = pl.querySelector(sel); if (el) el.hidden = true; });
+    ['.poster', '.stars', '.lang-chip'].forEach(function (sel) { var el = pl.querySelector(sel); if (el) el.hidden = true; });
     btn.hidden = true;
     v.play().catch(function () {});
     v.focus();
