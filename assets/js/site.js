@@ -34,49 +34,61 @@
     });
   }
 
-  // 3) Kontaktni obrazec → WordPress
-  var form = document.getElementById('contact-form');
-  if (form) {
-    var status = document.getElementById('form-status');
+  // 3) Obrazci → Gravity Forms (kontakt in "Check your brand"); oba v obrazec ID 3
+  var sendToWordPress = function (data, done, fail) {
+    if (!cfg.contactEndpoint) {
+      var body = data.message + '\n\n' + data.name + (data.company ? ', ' + data.company : '') + '\n' + data.email;
+      window.location.href = 'mailto:' + cfg.contactEmail + '?subject=' + encodeURIComponent(data.subject || 'aboutbuzz inquiry') + '&body=' + encodeURIComponent(body);
+      done(true); return;
+    }
+    var payload = {};
+    Object.keys(cfg.contactFields || {}).forEach(function (k) { payload[cfg.contactFields[k]] = data[k] || ''; });
+    fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) { if (!res.ok || res.j.is_valid === false) throw new Error('invalid'); done(false); })
+      .catch(fail);
+  };
+  var wireForm = function (form, build, okText) {
+    var status = form.querySelector('.form-status');
     var show = function (msg, ok) {
-      status.hidden = false;
-      status.textContent = msg;
+      status.hidden = false; status.textContent = msg;
       status.className = 'form-status ' + (ok ? 'form-status--ok' : 'form-status--err');
     };
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (form.website && form.website.value) return; // past za robote
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      var data = {
-        name: form.name.value.trim(),
-        company: form.company.value.trim(),
-        email: form.email.value.trim(),
-        message: form.message.value.trim()
-      };
-      if (!cfg.contactEndpoint) {
-        var body = data.message + '\n\n' + data.name + (data.company ? ', ' + data.company : '') + '\n' + data.email;
-        window.location.href = 'mailto:' + cfg.contactEmail + '?subject=' + encodeURIComponent('aboutbuzz inquiry') + '&body=' + encodeURIComponent(body);
-        show('Your email app should open with the message ready. If it does not, write to ' + cfg.contactEmail + '.', true);
-        return;
-      }
       var btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
-      var payload = data;
-      if (cfg.contactFields) {
-        payload = {};
-        Object.keys(cfg.contactFields).forEach(function (k) { payload[cfg.contactFields[k]] = data[k]; });
-      }
-      fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
-        .then(function (res) {
-          if (!res.ok || res.j.is_valid === false) throw new Error('invalid');
-          form.reset();
-          show('Thank you. We received your message and will reply within 24 hours.', true);
-        })
-        .catch(function () { show('The message could not be sent. Please try again, or write to ' + cfg.contactEmail + '.', false); })
-        .then(function () { btn.disabled = false; });
+      sendToWordPress(build(form),
+        function (viaMail) {
+          if (viaMail) show('Your email app should open with the message ready. If it does not, write to ' + cfg.contactEmail + '.', true);
+          else { form.reset(); show(okText, true); }
+          btn.disabled = false;
+        },
+        function () { show('The message could not be sent. Please try again, or write to ' + cfg.contactEmail + '.', false); btn.disabled = false; });
     });
-  }
+  };
+  var val = function (form, n) { return form[n] ? form[n].value.trim() : ''; };
+
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) wireForm(contactForm, function (f) {
+    return { name: val(f, 'name'), company: val(f, 'company'), email: val(f, 'email'), message: val(f, 'message') };
+  }, 'Thank you. We received your message and will reply within 24 hours.');
+
+  var brandForm = document.getElementById('brand-check-form');
+  if (brandForm) wireForm(brandForm, function (f) {
+    return {
+      subject: 'Brand check',
+      name: val(f, 'name'),
+      company: val(f, 'brandsite'),
+      email: val(f, 'email'),
+      message: '[Brand check]\nWebsite: ' + val(f, 'brandsite') +
+        '\nProduct category: ' + val(f, 'category') +
+        '\nTarget country / language: ' + val(f, 'market') +
+        (val(f, 'notes') ? '\nProduct / notes: ' + val(f, 'notes') : '')
+    };
+  }, 'Thank you. We will check your brand and reply within 24 hours, before you buy anything.');
 
   // 4) Stran z video ocenami
   var grid = document.getElementById('reviews-grid');

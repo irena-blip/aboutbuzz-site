@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="/assets/css/style.css?v=202611271356">
+<link rel="stylesheet" href="/assets/css/style.css?v=202611271404">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -44,15 +44,54 @@
 <div class="eyebrow">Pricing</div>
 <h1>Start with 4 free video reviews</h1>
 <p class="lead">No credit card needed. Move to a paid plan when you want the reviews on your own store, with EU trust badges on every video.</p>
+<a class="btn btn--ghost" href="#brand-check">Check your brand first</a>
 </div></div>
+</section>
+
+<section class="band" id="brand-check" style="padding-top:0">
+<div class="wrap">
+<div class="brand-check">
+<div class="stack brand-check-intro">
+<div class="eyebrow">Step 1 · Free, before you buy</div>
+<h2>Check if we can collect reviews for your brand</h2>
+<p>We can't collect video reviews for every brand or product. Tell us what you sell and where, and we will confirm within 24 hours whether our verified testers can review it, before you pay anything.</p>
+<ul class="checks">
+<li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Reply within 24 hours</li>
+<li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No payment, no commitment</li>
+<li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>We suggest the plan that fits</li>
+</ul>
+</div>
+<form class="card brand-check-form" id="brand-check-form" novalidate>
+<div class="field"><label for="bc-site">Brand or store website</label><input class="input" id="bc-site" name="brandsite" type="url" inputmode="url" placeholder="https://" required></div>
+<div class="field-row">
+<div class="field"><label for="bc-category">Product category</label><select class="input" id="bc-category" name="category" required>
+<option value="">Choose a category</option>
+<option>Beauty &amp; Skin Care</option><option>Health &amp; Wellness</option><option>Food &amp; Restaurants</option>
+<option>Home &amp; Appliances</option><option>Children &amp; Baby Products</option><option>Fitness &amp; Sports</option>
+<option>Pets</option><option>Events &amp; Experiences</option><option>Online courses &amp; services</option><option>Other</option>
+</select></div>
+<div class="field"><label for="bc-market">Target country / language</label><input class="input" id="bc-market" name="market" type="text" placeholder="e.g. Slovenia, Slovenian" required></div>
+</div>
+<div class="field"><label for="bc-notes">Product to review <span class="opt">(optional)</span></label><textarea class="input" id="bc-notes" name="notes" rows="3" placeholder="Which product, price range, anything we should know"></textarea></div>
+<div class="field-row">
+<div class="field"><label for="bc-name">Your name</label><input class="input" id="bc-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="bc-email">Work email</label><input class="input" id="bc-email" name="email" type="email" autocomplete="email" required></div>
+</div>
+<div class="hp" aria-hidden="true"><label for="bc-website">Website</label><input id="bc-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<p class="note">We use your details only to answer this request, as described in our <a href="https://aboutbuzz.com/wp-content/uploads/2026/04/Data-Processing-Notice.pdf">Data Processing Notice</a>.</p>
+<div class="form-status" role="status" hidden></div>
+<div><button class="btn btn--primary" type="submit">Check my brand</button></div>
+</form>
+</div>
+</div>
 </section>
 
 <section class="band" id="plans" style="padding-top:0">
 <div class="wrap stack" style="gap:28px">
 <div class="plans">
 <div class="plan"><div class="plan-tag">No credit card needed</div><h2 style="font-size:26px">Free plan</h2><div class="price">0 €</div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>aboutbuzz collects 4 video reviews for you</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Preview reviews in your dashboard</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Reviews are published on the public aboutbuzz video review page</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>See the process risk-free</span></li></ul><a class="btn btn--ghost" href="https://upload.aboutbuzz.com" data-link="freeSignup">Get 4 free reviews</a></div>
-<div class="plan plan--featured"><div class="plan-tag">Show reviews on your store</div><h2 style="font-size:26px">Display &amp; Trust</h2><div class="price">29 €<small>/month</small></div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Embed video reviews on your store</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>EU trust badges on every video</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Fast streaming with no page load impact</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Track views, clicks, and sales impact</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Setup help and customer support</span></li></ul><a class="btn btn--primary" href="https://upload.aboutbuzz.com" data-link="planDisplay">Get started</a></div>
-<div class="plan"><div class="plan-tag">Fresh videos every month</div><h2 style="font-size:26px">Growth plan</h2><div class="price">149 €<small>/month</small></div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Up to 6 fresh verified videos each month</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Reviews for several products</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Ad usage rights for approved videos</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Everything in Display &amp; Trust</span></li></ul><a class="btn btn--ghost" href="https://upload.aboutbuzz.com" data-link="planGrowth">Start with Growth</a></div>
+<div class="plan plan--featured"><div class="plan-tag">Show reviews on your store</div><h2 style="font-size:26px">Display &amp; Trust</h2><div class="price">29 €<small>/month</small></div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Embed video reviews on your store</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>EU trust badges on every video</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Fast streaming with no page load impact</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Track views, clicks, and sales impact</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Setup help and customer support</span></li></ul><a class="btn btn--primary" href="https://upload.aboutbuzz.com" data-link="planDisplay">Get started</a><a class="plan-check" href="#brand-check">Not sure? Check your brand first</a></div>
+<div class="plan"><div class="plan-tag">Fresh videos every month</div><h2 style="font-size:26px">Growth plan</h2><div class="price">149 €<small>/month</small></div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Up to 6 fresh verified videos each month</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Reviews for several products</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Ad usage rights for approved videos</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Everything in Display &amp; Trust</span></li></ul><a class="btn btn--ghost" href="https://upload.aboutbuzz.com" data-link="planGrowth">Start with Growth</a><a class="plan-check" href="#brand-check">Not sure? Check your brand first</a></div>
 <div class="plan"><div class="plan-tag">Multiple sites or fully managed</div><h2 style="font-size:26px">Enterprise</h2><div class="price">Custom</div><ul><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>For multiple websites or fully managed service</span></li><li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01798C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Custom API integration</span></li></ul><a class="btn btn--ghost" href="/about/#contact">Contact us</a></div>
 </div>
 <p class="note">Prices exclude VAT where applicable. You can downgrade to Display &amp; Trust at any time, or buy a Video Pack on its own. After signup, you manage everything yourself in your client dashboard. Payments are processed securely on our checkout.</p>
@@ -121,8 +160,8 @@
 </div>
 </div>
 </footer>
-<script src="/assets/js/config.js?v=202611271356"></script>
-<script src="/assets/js/site.js?v=202611271356"></script>
-<script src="/assets/js/consent.js?v=202611271356"></script>
+<script src="/assets/js/config.js?v=202611271404"></script>
+<script src="/assets/js/site.js?v=202611271404"></script>
+<script src="/assets/js/consent.js?v=202611271404"></script>
 </body>
 </html>
