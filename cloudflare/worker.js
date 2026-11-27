@@ -4,6 +4,7 @@
  * Ta Worker teče SAMO na naštetih poteh (Workers Routes, glej PREKLOP.md):
  *   aboutbuzz.com/            aboutbuzz.com/pricing*      aboutbuzz.com/howitworks*
  *   aboutbuzz.com/about*      aboutbuzz.com/video-reviews*  aboutbuzz.com/assets/*
+ *   aboutbuzz.com/eu-funding*
  * Vse ostalo (wp-json, wp-content, checkout, my-account, pripomoček pri strankah …)
  * Workerja sploh ne doseže in gre naravnost v WordPress kot danes.
  *
@@ -19,7 +20,7 @@
 const PAGES_ORIGIN = 'https://aboutbuzz-site.pages.dev';
 
 // Strani nove strani (z in brez končne poševnice)
-const NEW_PAGES = new Set(['/', '/pricing/', '/howitworks/', '/about/', '/video-reviews/']);
+const NEW_PAGES = new Set(['/', '/pricing/', '/howitworks/', '/about/', '/video-reviews/', '/eu-funding/']);
 const NEW_PREFIXES = ['/assets/'];
 
 // Parametri, ki ne spremenijo strani (oglaševanje, analitika) – ti smejo na novo stran

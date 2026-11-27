@@ -5,7 +5,7 @@ vse ostalo ostane na WordPressu. WordPressa se pri tem **ne spreminja**.
 
 | Pot | Streže |
 |---|---|
-| `/`, `/pricing/`, `/howitworks/`, `/about/`, `/video-reviews/`, `/assets/*` | nova stran (`aboutbuzz-site.pages.dev`) |
+| `/`, `/pricing/`, `/howitworks/`, `/about/`, `/video-reviews/`, `/eu-funding/`, `/assets/*` | nova stran (`aboutbuzz-site.pages.dev`) |
 | vse ostalo (`/wp-json`, `/wp-content`, `/checkout`, `/cart`, `/my-account`, `/product`, `/brands`, `/get-in-touch`, `/wp-admin` …) | WordPress, kot zdaj |
 | `/` z WordPress parametri (`?add-to-cart=`, `?s=`, `?p=` …), vse POST zahteve | WordPress |
 
@@ -17,7 +17,7 @@ pri strankah (WordPress/Shopify), povezave z Lovable in plačil sploh ne doseže
 ## A. Pred dnevom preklopa (Irena)
 
 - [ ] Številke na strani preverjene (»300+«, »+46 %«, »15 %«, »92 %«) ali popravljene
-- [ ] Besedilo o sofinanciranju usklajeno z logotipi (ESRR / EIF)
+- [ ] Podstran /eu-funding/ izpolnjena (naziv, opis, cilji, rezultati, znesek EU / skupna vrednost)
 - [ ] Vtičnik za piškotke na WordPressu (Complianz / Cookiebot) + integracija v PixelYourSite
 - [ ] Testni nakup prek new.aboutbuzz.com: Free, Display & Trust, Growth (do konca, z registracijo)
 - [ ] Kontaktni obrazec na new.aboutbuzz.com/about/#contact → vnos v Gravity Forms in e-mail
@@ -38,6 +38,7 @@ pri strankah (WordPress/Shopify), povezave z Lovable in plačil sploh ne doseže
    - `aboutbuzz.com/about*`
    - `aboutbuzz.com/video-reviews*`
    - `aboutbuzz.com/assets/*`
+   - `aboutbuzz.com/eu-funding*`
 
    (Če uporabljate tudi `www.aboutbuzz.com`, ponovi iste poti z `www.`.)
 6. **Počisti predpomnilnik:** Caching → Configuration → *Purge Everything*. WordPress: *Delete Cache* v zgornji vrstici.
